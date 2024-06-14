@@ -39,3 +39,8 @@ Si ya terminaste o son las 10:00 asegurate de seguir los siguientes pasos para l
 ## Listado de endpoint
 
 -GET /api/sales?pageSize=[pageSize]&page=[page]
+-GET ALL SALES '/api/sales/' 
+-GET SALE BY ID 'api/sales/id' ------- Ejemplo:(/api/sales/628e97b2239893cc248784c5)
+-GET SALE BY LOCATION api/sales/location/location -------- Ejemplo: (/api/sales/location/New York)
+-GET SALE BY FILTERED LOCATION, PURCHASE METHOD, COUPON '/api/sales/data?storeLocation=[location]&purchaseMethod=[purchaseMethod]&couponUsed=[couponUsed]' 
+-GET ORDERED CLIENT SATISFACTION '/api/sales/satisfaction'

@@ -1,12 +1,14 @@
+import { ObjectId } from "mongodb";
 import getConnection from "./conn.js";
+
 const DATABASE = "sample_supplies";
-const MOVIES = "sales";
+const SALES = "sales";
 
 async function getAllSales(pageSize, page) {
   const connectiondb = await getConnection();
   const sales = await connectiondb
     .db(DATABASE)
-    .collection(MOVIES)
+    .collection(SALES)
     .find({})
     .limit(pageSize)
     .skip(pageSize * page)
@@ -14,4 +16,66 @@ async function getAllSales(pageSize, page) {
   return sales;
 }
 
-export { getAllSales };
+async function getSaleById(id) {
+  try {
+    const connectiondb = await getConnection();
+    const sale = await connectiondb
+      .db(DATABASE)
+      .collection(SALES)
+      .findOne({ _id: new ObjectId(id) });
+
+    if (!sale) {
+      throw new Error("Sale not found");
+    }
+
+    return sale;
+  } catch (e) {
+    console.error("Error", e.message);
+  }
+}
+
+async function getSalesByLocation(location) {
+  const connectiondb = await getConnection();
+  const sales = await connectiondb
+    .db(DATABASE)
+    .collection(SALES)
+    .find({ "storeLocation": { $regex: new RegExp(location, "i") } })
+    .toArray()
+  return sales;
+}
+
+async function getSalesFilteredByLocPurMethodAndCoup(location, purMethod, coupon) {
+  try {
+    const connectiondb = await getConnection();
+    const sales = await connectiondb
+      .db(DATABASE)
+      .collection(SALES)
+      .find({
+        "storeLocation": { $regex: new RegExp(location, "i") },
+        $and: [
+          { "purchaseMethod": purMethod },
+          { "couponUsed": coupon }
+        ]
+      })
+      .toArray();
+
+    return sales;
+  } catch (e) {
+    throw new Error(e.message);
+  }
+}
+
+async function getClientsBySatisfaction() {
+  const connectiondb = await getConnection();
+
+  const sales = await connectiondb
+    .db(DATABASE)
+    .collection(SALES)
+    .find({ 'customer.satisfaction': { $exists: true } })
+    .sort({ 'customer.satisfaction': -1 })
+    .toArray();
+
+  return sales;
+}
+
+export { getAllSales, getSaleById, getSalesByLocation, getSalesFilteredByLocPurMethodAndCoup , getClientsBySatisfaction};
