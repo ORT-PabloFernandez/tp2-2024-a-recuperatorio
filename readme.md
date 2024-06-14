@@ -39,3 +39,16 @@ Si ya terminaste o son las 10:00 asegurate de seguir los siguientes pasos para l
 ## Listado de endpoint
 
 -GET /api/sales?pageSize=[pageSize]&page=[page]
+
+(busca una venta por _id)
+-GET /api/:_id 
+
+(filtra ventas por localizacion)
+-GET /api/sales/location/:location
+
+(filtrado por localizacion, medio de pago y cupon true or false)
+-GET /api/sales/locMedCoup/locMedCoup
+http://localhost:3000/api/sales/locMedCoup/locMedCoup/?location=Denver&medio=Phone&coupon=true
+
+(obtener listados de clientes ordenados por indice de satisfaccion)
+-GET /api/sales/satisfaction/satisfaction
