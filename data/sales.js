@@ -13,6 +13,7 @@ async function getAllSales(pageSize, page) {
     .limit(pageSize)
     .skip(pageSize * page)
     .toArray();
+    
   return sales;
 }
 

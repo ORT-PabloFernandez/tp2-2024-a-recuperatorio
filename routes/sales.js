@@ -11,8 +11,8 @@ router.get("/", async (req, res) => {
 });
 
 //ruta ejercicio1
-//ruta -GET /api/sales/GetById/:id=[Id]
-router.get("/GetById/:id", async (req,res) =>
+//ruta -GET /api/sales/GetPorId/:id=[Id]
+router.get("/GetPorId/:id", async (req,res) =>
   {
     try{
       const id = req.params.id;
